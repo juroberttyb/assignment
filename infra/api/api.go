@@ -96,5 +96,17 @@ func BuyProduct(c *gin.Context) {
 
 func ChangeActivity(c *gin.Context) {
 	state := c.Param("state")
-	fmt.Println(state)
+	if state == "normal" {
+		discount = 0.05
+		convert_ratio = 1.
+	} else if state == "festival" {
+		discount = 0.06
+		convert_ratio = 1.2
+	} else if state == "big festival" {
+		discount = 0.08
+		convert_ratio = 2.
+	} else {
+		fmt.Println("[RESPONSE] no such state")
+	}
+	fmt.Println("[RESPONSE]", state, "activated")
 }
