@@ -18,8 +18,6 @@ func InitRouter() {
 	Router.GET("/view/get_products", api.GetProducts)
 	Router.GET("/view/get_users", api.GetUsers)
 
-	// Router.PATCH("/buy/:product/:user", api.BuyProduct)
-	// Router.PATCH("/activity/:state", api.ChangeActivityState)
-
-	// Router.POST("/group/create/:group_name", api.CreateGroup)
+	Router.PATCH("/buy/:product/:user", api.BuyProduct)
+	Router.PATCH("/activity/:state", api.ChangeActivity)
 }
