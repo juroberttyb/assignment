@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -34,6 +35,7 @@ var products = []product{
 }
 
 var discount float32 = 0.05
+var convert_ratio float32 = 1.
 
 func GetUsers(c *gin.Context) {
 	for _, result := range users {
@@ -60,16 +62,29 @@ func GetProducts(c *gin.Context) {
 func BuyProduct(c *gin.Context) {
 	product_name := c.Param("product")
 	user_name := c.Param("user")
+	rcv_point := c.Param("point")
+	point, _ := strconv.Atoi(rcv_point)
+
 	for i := 0; i < len(products); i++ {
 		if products[i].Name == product_name {
 			for j := 0; j < len(users); j++ {
 				if users[j].Name == user_name {
-					if users[j].Money >= products[i].Price {
-						users[j].Money = users[j].Money - int(float32(products[i].Price)*(1.-discount*float32(users[j].Vip)))
+					if point > users[j].Point {
+						fmt.Println("[RESPONSE] not enough point")
+						return
+					}
+
+					price := products[i].Price
+					vip_price := float32(price) * (1. - discount*float32(users[j].Vip))
+					estimated_payment := int(vip_price - convert_ratio*float32(point))
+					if users[j].Money >= estimated_payment {
+						users[j].Money = users[j].Money - estimated_payment
+						users[j].Point = users[j].Point - point
 						products[i].Number -= 1
 						fmt.Println("[RESPONSE] buy action succeful")
 					} else {
 						fmt.Println("[RESPONSE] so sad, not enough money")
+						return
 					}
 				}
 			}

@@ -16,6 +16,6 @@ func InitRouter() {
 	Router.GET("/view/get_products", api.GetProducts)
 	Router.GET("/view/get_users", api.GetUsers)
 
-	Router.PATCH("/buy/:product/:user", api.BuyProduct)
+	Router.PATCH("/buy/:product/:user/:point", api.BuyProduct)
 	Router.PATCH("/activity/:state", api.ChangeActivity)
 }
