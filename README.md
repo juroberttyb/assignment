@@ -2,9 +2,9 @@
 ### Which is done
 * All required functionalities are implemented
 ### How to use
-* for running up server
-  * go run main.go
-* for test cases
+* [STEP 1]
+  * go run main.go, for running up server
+* [SETP 2]
   * curl localhost:8080/view/get_users, for getting users
   * curl localhost:8080/view/get_products, for getting products
   * curl localhost:8080/buy/cat/lisa/50 --request "PATCH", for buying a cat as lisa with 50 points
