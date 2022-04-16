@@ -8,3 +8,4 @@
 * curl localhost:8080/buy/cat/lisa/100 --request "PATCH", for buying a cat as lisa with 100 points
 * curl localhost:8080/activity/normal --request "PATCH", set activity level to normal, for changing level of discount to 0.05 and point conversion ratio to 1.
 * curl localhost:8080/activity/festival --request "PATCH", set activity level to festival, for changing level of discount to 0.06 and point conversion ratio to 1.2
+* curl localhost:8080/buy/cat/bruch/200 --request "PATCH", for buying a cat as bruch with 200 points, therefore extra 90% discount activated

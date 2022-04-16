@@ -75,7 +75,19 @@ func BuyProduct(c *gin.Context) {
 					}
 
 					price := products[i].Price
-					vip_price := float32(price) * (1. - discount*float32(users[j].Vip))
+					var extra_discount bool
+					if users[j].Vip > 0 && point >= 100 {
+						extra_discount = true
+					} else {
+						extra_discount = false
+					}
+
+					var vip_price float32
+					if extra_discount {
+						vip_price = float32(price) * 0.9 * (1. - discount*float32(users[j].Vip))
+					} else {
+						vip_price = float32(price) * (1. - discount*float32(users[j].Vip))
+					}
 					estimated_payment := int(vip_price - convert_ratio*float32(point))
 					if users[j].Money >= estimated_payment {
 						users[j].Money = users[j].Money - estimated_payment
