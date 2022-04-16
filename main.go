@@ -1,7 +1,7 @@
 package main
 
 import (
-	"server/infra"
+	"assignment/infra"
 )
 
 func main() {

@@ -1,7 +1,7 @@
 package infra
 
 import (
-	"server/infra/api"
+	"assignment/infra/api"
 
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"

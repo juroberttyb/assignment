@@ -8,7 +8,7 @@
 * Results are currently shown on server side terminal
 ### How to use
 * [STEP 1]
-  * [go run main.go] for running up server
+  * [./assignment] for running up server
 * [SETP 2]
   * [curl localhost:8080/view/get_users] for getting users
   * [curl localhost:8080/view/get_products] for getting products
