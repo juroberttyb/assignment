@@ -92,6 +92,10 @@ func BuyProduct(c *gin.Context) {
 					if users[j].Money >= estimated_payment {
 						users[j].Money = users[j].Money - estimated_payment
 						users[j].Point = users[j].Point - point
+						if products[i].Number == 0 {
+							fmt.Println("[RESPONSE] not enough product, come back later!")
+							return
+						}
 						products[i].Number -= 1
 						fmt.Println("[RESPONSE] buy action succeful")
 					} else {
