@@ -102,7 +102,7 @@ func ChangeActivity(c *gin.Context) {
 	} else if state == "festival" {
 		discount = 0.06
 		convert_ratio = 1.2
-	} else if state == "big festival" {
+	} else if state == "big_festival" {
 		discount = 0.08
 		convert_ratio = 2.
 	} else {
