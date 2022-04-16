@@ -11,8 +11,6 @@ import (
 var Router = gin.Default()
 
 func InitRouter() {
-	api.Init()
-
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	Router.GET("/view/get_products", api.GetProducts)

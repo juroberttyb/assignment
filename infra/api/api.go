@@ -1,17 +1,10 @@
 package api
 
 import (
-	"context"
 	"encoding/json"
-	"server/infra/api/db"
-	"server/utils/log"
-	"time"
-
-	"net/http"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.uber.org/zap"
 )
 
@@ -40,14 +33,16 @@ var products = []product{
 	{Name: "horse", Price: 5000, Number: 2},
 }
 
+var discount float32 = 0.05
+
 func GetUsers(c *gin.Context) {
 	for _, result := range users {
 		output, err := json.MarshalIndent(result, "", "    ")
 		if err != nil {
-			log.Error("something went wrong", zap.Error(err))
+			fmt.Println("something went wrong", zap.Error(err))
 			panic(err)
 		}
-		log.Info(string(output))
+		fmt.Println(string(output))
 	}
 }
 
@@ -55,64 +50,36 @@ func GetProducts(c *gin.Context) {
 	for _, result := range products {
 		output, err := json.MarshalIndent(result, "", "    ")
 		if err != nil {
-			log.Error("something went wrong", zap.Error(err))
+			fmt.Println("something went wrong", zap.Error(err))
 			panic(err)
 		}
-		log.Info(string(output))
+		fmt.Println(string(output))
 	}
-}
-
-func CreateGroup(c *gin.Context) {
-	group_name := c.Param("group_name")
-
-	coll := db.Client.Database("groups").Collection("version1")
-	doc := bson.D{
-		{"group_name", group_name},
-		{"total_member", 0},
-		{"members", []string{}},
-		{"start_time", time.Now()},
-		{"active", true},
-	}
-	result, err := coll.InsertOne(context.TODO(), doc)
-	if err != nil {
-		panic(err)
-	}
-
-	insertion_response := response{
-		ID:      result.InsertedID.(primitive.ObjectID).Hex(),
-		Message: "success",
-	}
-
-	c.IndentedJSON(http.StatusOK, insertion_response)
 }
 
 func BuyProduct(c *gin.Context) {
 	product_name := c.Param("product")
 	user_name := c.Param("user")
-
-	for _, result := range products {
-		if result["Name"] == product_name {
-			result["Number"] -= 1
+	for i := 0; i < len(products); i++ {
+		if products[i].Name == product_name {
+			for j := 0; j < len(users); j++ {
+				if users[j].Name == user_name {
+					if users[j].Money >= products[i].Price {
+						users[j].Money = users[j].Money - int(float32(products[i].Price)*(1.-discount*float32(users[j].Vip)))
+						products[i].Number -= 1
+						fmt.Println("[RESPONSE] buy action succeful")
+					} else {
+						fmt.Println("[RESPONSE] so sad, not enough money")
+					}
+				}
+			}
 			return
 		}
 	}
-
+	fmt.Println("[RESPONSE] No such thing")
 }
 
 func ChangeActivity(c *gin.Context) {
 	state := c.Param("state")
-
-	for _, result := range products {
-		if result["Name"] == product_name {
-			result["Number"] -= 1
-			return
-		}
-	}
-
-}
-
-func Init() {
-	log.Info("Connecting to database...")
-	db.Connect()
-	log.Info("Connection to database established.")
+	fmt.Println(state)
 }
