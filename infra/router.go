@@ -14,18 +14,12 @@ func InitRouter() {
 	api.Init()
 
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	Router.GET("/buy/:product/:vip_level", api.GetGroups)
-	Router.GET("/group/get_by_name/:group_name", api.GetGroupByName)
 
-	Router.POST("/group/create/:group_name", api.CreateGroup)
+	Router.GET("/view/get_products", api.GetProducts)
+	Router.GET("/view/get_users", api.GetUsers)
 
-	Router.PATCH("/group/update/:search_name/:set_name", api.UpdateGroupName)
+	// Router.PATCH("/buy/:product/:user", api.BuyProduct)
+	// Router.PATCH("/activity/:state", api.ChangeActivityState)
 
-	Router.GET("/books", api.GetBooks)
-	Router.GET("/books/:id", api.BookById)
-
-	Router.POST("/books", api.CreateBook)
-
-	Router.PATCH("/checkout", api.CheckoutBook)
-	Router.PATCH("/return", api.ReturnBook)
+	// Router.POST("/group/create/:group_name", api.CreateGroup)
 }
